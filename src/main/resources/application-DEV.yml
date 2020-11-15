@@ -7,6 +7,8 @@ logging:
 spring:
   boot:
     admin:
+      discovery:
+        ignored-services: gateway
       notify:
         slack:
           webhook-url: https://hooks.slack.com/services/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
@@ -14,7 +16,14 @@ spring:
 eureka:
   instance:
     appname: spring-boot-admin-server
+    hostname: localhost
     leaseRenewalIntervalInSeconds: 10
+    health-check-url-path: /actuator/health
+    metadata-map:
+      startup: ${random.int}    #needed to trigger info and endpoint update after restart
+      user:
+        name: "thirumal"
+        password: "thirumal"
     preferIpAddress: true
   client:
     region: default
