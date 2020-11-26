@@ -17,7 +17,7 @@
 	<properties>
 		<java.version>15</java.version>
 		<spring-boot-admin.version>2.3.1</spring-boot-admin.version>
-		<spring-cloud.version>2020.0.0-SNAPSHOT</spring-cloud.version>
+		<spring-cloud.version>2020.0.0-M5</spring-cloud.version>
 	</properties>
 
 	<dependencies>
