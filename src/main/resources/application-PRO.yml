@@ -1,7 +1,7 @@
 logging: 
   level: 
-    '[de.codecentric.boot.admin.server.web.client]': debug
-    '[de.codecentric.boot.admin]': debug
+    '[de.codecentric.boot.admin.server.web.client]': error
+    '[de.codecentric.boot.admin]': error
 
 
 spring:
