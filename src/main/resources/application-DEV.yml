@@ -8,7 +8,7 @@ spring:
   boot:
     admin:
       discovery:
-        ignored-services: gateway
+        ignored-services: nothing-for-now
       notify:
         slack:
           webhook-url: https://hooks.slack.com/services/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
