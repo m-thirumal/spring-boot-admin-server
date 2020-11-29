@@ -1,6 +1,10 @@
 # spring-boot-admin-server
 
-Spring boot admin server with Eureka
+Run with [Eureka server/registry](https://github.com/M-Thirumal/eureka-server) 
+
+* Spring boot admin will be the client of eureka-server
+
+* Eureka-server will be the client of spring boot admin server
 
 #### Login Details
 
@@ -45,7 +49,7 @@ Password: thirumal
 
 ## Architecture
 
-![Spring-boot-Admin-server-client-with-eureka](Spring-boot-Admin-server-client-with-eureka.svg)
+![Spring-boot-Admin-server-client-with-eureka](output/Spring-boot-Admin-server-client-with-eureka.svg)
 
 ## Output
 
