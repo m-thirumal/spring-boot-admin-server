@@ -46,3 +46,13 @@ Password: thirumal
 ## Architecture
 
 ![Spring-boot-Admin-server-client-with-eureka](Spring-boot-Admin-server-client-with-eureka.svg)
+
+## Output
+
+![1.png](output/1.png)
+
+![2.png](output/2.png)
+
+![3.png](output/3.png)
+
+![4.png](output/4.png)
