@@ -41,5 +41,7 @@ Password: thirumal
 	    fetch-registry: true
 	    service-url:
 	      defaultZone: http://thirumal:thirumal@localhost:8761/eureka/
-	
 
+	## Architecture
+
+	![Spring boot Admin server and client with eureka](Spring boot Admin server and client with eureka.svg)
