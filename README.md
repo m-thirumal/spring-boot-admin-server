@@ -45,4 +45,4 @@ Password: thirumal
 
 ## Architecture
 
-![Spring boot Admin server and client with eureka](Spring boot Admin server and client with eureka.png)
+![Spring-boot-Admin-server-client-with-eureka](Spring-boot-Admin-server-client-with-eureka.svg)
