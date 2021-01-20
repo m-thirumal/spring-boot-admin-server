@@ -32,5 +32,5 @@ eureka:
     registryFetchIntervalSeconds: 5
     fetch-registry: true
     service-url:
-      defaultZone: http://thirumal:thirumal@localhost:8761/eureka/
+      defaultZone: http://thirumal:thirumal@localhost:8761/eureka/,http://thirumal:thirumal@localhost:8762/eureka/,http://thirumal:thirumal@localhost:8763/eureka/
       
