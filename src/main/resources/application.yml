@@ -1,0 +1,58 @@
+eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 10
+    health-check-url-path: /actuator/health
+    metadata-map:
+      startup: ${random.int}    #needed to trigger info and endpoint update after restart
+      user:
+        name: "thirumal"
+        password: "thirumal"
+    preferIpAddress: true
+  client:
+    region: default
+    enabled: true
+    register-with-eureka: true
+    registryFetchIntervalSeconds: 5
+    fetch-registry: true
+
+#Graceful shutdown
+server:
+  shutdown: graceful
+spring:
+  lifecycle:
+    timeout-per-shutdown-phase: 60s
+    
+logging:
+  file: 
+    name: logs/spring-boot-admin-server.log 
+  level: 
+    ch: 
+      qos: 
+        logback: 
+          classic: 
+            Level: debug
+    web: DEBUG
+  logback: 
+    rollingpolicy: 
+      max-history: 10
+      max-file-size: 100MB
+      total-size-cap: 1GB
+#Actuator
+management:
+  endpoint:
+    shutdown:
+      enabled: true
+    restart: 
+      enabled: true
+    health:
+      show-details: ALWAYS
+  endpoints: 
+    web: 
+      exposure: 
+        include: '*'
+  health: 
+    mail:
+      enabled: false
+  info:
+    git:
+      mode: "full"

@@ -17,20 +17,7 @@ eureka:
   instance:
     appname: spring-boot-admin-server
     hostname: localhost
-    leaseRenewalIntervalInSeconds: 10
-    health-check-url-path: /actuator/health
-    metadata-map:
-      startup: ${random.int}    #needed to trigger info and endpoint update after restart
-      user:
-        name: "thirumal"
-        password: "thirumal"
-    preferIpAddress: true
   client:
-    region: default
-    enabled: true
-    register-with-eureka: true
-    registryFetchIntervalSeconds: 5
-    fetch-registry: true
     service-url:
       defaultZone: http://thirumal:thirumal@172.19.250.7:8761/eureka/,http://thirumal:thirumal@172.19.250.8:8762/eureka/,http://thirumal:thirumal@172.19.250.9:8763/eureka/
       
