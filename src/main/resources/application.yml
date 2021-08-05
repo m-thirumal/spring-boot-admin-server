@@ -19,6 +19,11 @@ eureka:
 server:
   shutdown: graceful
 spring:
+  boot:
+    admin: 
+      notify: 
+        ms-teams:
+          enabled: true
   lifecycle:
     timeout-per-shutdown-phase: 60s
     
@@ -56,3 +61,4 @@ management:
   info:
     git:
       mode: "full"
+# Notification
