@@ -51,6 +51,20 @@ Password: thirumal
 
 ![Spring-boot-Admin-server-client-with-eureka](output/Spring-boot-Admin-server-client-with-eureka.svg)
 
+## Run as JAR
+
+	./spring-boot-admin-server.sh
+	
+## Run in docker
+
+* Create docker layered image using the following command
+
+	docker build -t spring-boot-admin-server .
+	
+* Run the image
+	
+	docker run -p 7126:7126 spring-boot-admin-server
+
 ## Output
 
 ![1.png](output/1.png)
