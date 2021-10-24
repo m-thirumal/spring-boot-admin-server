@@ -59,9 +59,9 @@ Password: thirumal
 
 * Create docker layered image using the following command
 	
-	mvn package
-	mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
-	docker build -t spring-boot-admin-server .
+      mvn package
+      mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
+      docker build -t spring-boot-admin-server .
 	
 * Run the image
 	
