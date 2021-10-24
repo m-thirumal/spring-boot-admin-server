@@ -65,7 +65,7 @@ Password: thirumal
 	
 * Run the image
 	
-	docker run -p 7126:7126 spring-boot-admin-server
+      docker run -d -p 7126:7126 spring-boot-admin-server
 
 ## Output
 
