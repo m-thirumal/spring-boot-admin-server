@@ -1,8 +1,9 @@
 FROM openjdk:17-alpine
 RUN addgroup -S thirumal && adduser -S thirumal -G thirumal
 USER thirumal:thirumal
+ENV APPROOT="/app"
 ARG DEPENDENCY=target/dependency
-COPY ${DEPENDENCY}/BOOT-INF/lib /spring-boot-admin-server-0.0.1-SNAPSHOT/lib
-COPY ${DEPENDENCY}/META-INF /spring-boot-admin-server-0.0.1-SNAPSHOT/META-INF
-COPY ${DEPENDENCY}/BOOT-INF/classes /spring-boot-admin-server-0.0.1-SNAPSHOT
-ENTRYPOINT ["java","-cp","spring-boot-admin-server-0.0.1-SNAPSHOT:spring-boot-admin-server-0.0.1-SNAPSHOT/lib/*","in.thirumal.SpringBootAdminServerApplication"]
+COPY ${DEPENDENCY}/BOOT-INF/lib ${APPROOT}/lib
+COPY ${DEPENDENCY}/META-INF ${APPROOT}/META-INF
+COPY ${DEPENDENCY}/BOOT-INF/classes ${APPROOT}
+ENTRYPOINT ["java","-cp","app:app/lib/*","in.thirumal.SpringBootAdminServerApplication"]
