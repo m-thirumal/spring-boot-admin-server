@@ -66,6 +66,10 @@ Password: thirumal
 * Run the image
 	
       docker run --name spring-boot-admin-server --restart always -d -p 7126:7126 spring-boot-admin-server
+      
+* Run image without log driver
+
+	docker run --name spring-boot-admin-server --restart always --log-driver none -d -p 7126:7126 spring-boot-admin-server
 
 ## Output
 
