@@ -60,7 +60,9 @@ Password: thirumal
 * Create docker layered image using the following command
 	
       mvn package
+      chmod -R 777 target/
       mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
+      chmod -R 777 target/
       docker build -t spring-boot-admin-server .
 	
 * Run the image
@@ -73,7 +75,7 @@ Password: thirumal
 
 * Run image without log driver
 
-	docker run --name spring-boot-admin-server --restart always --log-driver none -d -p 7126:7126 spring-boot-admin-server
+      docker run --name spring-boot-admin-server --restart always --log-driver none -d -p 7126:7126 spring-boot-admin-server
 
 ## Output
 
