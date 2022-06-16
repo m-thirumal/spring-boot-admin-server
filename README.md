@@ -67,6 +67,10 @@ Password: thirumal
 	
       docker run --name spring-boot-admin-server --restart always -d -p 7126:7126 spring-boot-admin-server
       
+* Run image with local log driver
+
+	docker run --name spring-boot-admin-server --restart always --log-driver local --log-opt max-size=10m --log-opt max-file=3  --log-opt compress=true -d -p 7126:7126 spring-boot-admin-server
+
 * Run image without log driver
 
 	docker run --name spring-boot-admin-server --restart always --log-driver none -d -p 7126:7126 spring-boot-admin-server
