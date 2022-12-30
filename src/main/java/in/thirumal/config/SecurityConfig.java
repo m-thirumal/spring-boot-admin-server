@@ -3,22 +3,25 @@
  */
 package in.thirumal.config;
 
-import java.util.UUID;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsUtils;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import de.codecentric.boot.admin.server.config.AdminServerProperties;
 
@@ -29,7 +32,7 @@ import de.codecentric.boot.admin.server.config.AdminServerProperties;
  */
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig {
 	
 	private final AdminServerProperties adminServer;
 
@@ -37,58 +40,88 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         this.adminServer = adminServer;
     }
 	
-	@Override
-	public void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.inMemoryAuthentication().passwordEncoder(passwordEncoder())
-	    	.withUser("thirumal").password("$2a$11$WWZlUCd4XndWGpriAx7Pv.HpZ042awTnlAKr9VDiN9xEdPNS1Xy1q").roles("ADMIN").roles("ACTUATOR");
-	}
-	
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		SavedRequestAwareAuthenticationSuccessHandler successHandler = new SavedRequestAwareAuthenticationSuccessHandler();
-        successHandler.setTargetUrlParameter("redirectTo");
-        successHandler.setDefaultTargetUrl(this.adminServer.getContextPath() + "/");
+	@Bean
+    protected InMemoryUserDetailsManager configAuthentication() {
 
-        http.authorizeRequests()
-            .antMatchers(this.adminServer.getContextPath() + "/assets/**")
-            .permitAll()
-            .antMatchers(this.adminServer.getContextPath() + "/login")
-            .permitAll()
-            .anyRequest()
-            .authenticated()
-            .and()
-            .formLogin()
-            .loginPage(this.adminServer.getContextPath() + "/login")
-            .successHandler(successHandler)
-            .and()
-            .logout()
-            .logoutUrl(this.adminServer.getContextPath() + "/logout")
-            .and()
-            .httpBasic()
-            .and()
-            .csrf()
-            .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-            .ignoringRequestMatchers(new AntPathRequestMatcher(this.adminServer.getContextPath() + "/instances", HttpMethod.POST.toString()), new AntPathRequestMatcher(this.adminServer.getContextPath() + "/instances/*", HttpMethod.DELETE.toString()),
-                new AntPathRequestMatcher(this.adminServer.getContextPath() + "/actuator/**"))
-            .and()
-            .rememberMe()
-            .key(UUID.randomUUID()
-                .toString())
-            .tokenValiditySeconds(1209600);
-	}
-	
-	@Override
-    public void configure(WebSecurity web) throws Exception {
-        //web.ignoring().antMatchers("/**");
-		//web.debug(true);
-		web.ignoring()
-		.requestMatchers(CorsUtils::isPreFlightRequest)
-			.antMatchers("/login.html");
+       List<UserDetails> users = new ArrayList<>();
+       List<GrantedAuthority> adminAuthority = new ArrayList<>();
+       adminAuthority.add(new SimpleGrantedAuthority("ADMIN"));
+       adminAuthority.add(new SimpleGrantedAuthority("ACTUATOR"));
+       UserDetails admin= new User("thirumal", "$2a$11$WWZlUCd4XndWGpriAx7Pv.HpZ042awTnlAKr9VDiN9xEdPNS1Xy1q", adminAuthority);
+       users.add(admin);
+
+       List<GrantedAuthority> managerAuthority = new ArrayList<>();
+       adminAuthority.add(new SimpleGrantedAuthority("MANAGER"));
+       UserDetails manager= new User("t", "{noop}t", managerAuthority);
+       users.add(manager);
+
+       return new InMemoryUserDetailsManager(users);
     }
 	
-	@Bean 
-	public PasswordEncoder passwordEncoder() { 
-		return new BCryptPasswordEncoder(); 
+//	@Override
+//	protected void configure(HttpSecurity http) throws Exception {
+//		SavedRequestAwareAuthenticationSuccessHandler successHandler = new SavedRequestAwareAuthenticationSuccessHandler();
+//        successHandler.setTargetUrlParameter("redirectTo");
+//        successHandler.setDefaultTargetUrl(this.adminServer.getContextPath() + "/");
+//
+//        http.authorizeHttpRequests()
+//            .requestMatchers(this.adminServer.getContextPath() + "/assets/**")
+//            .permitAll()
+//            .requestMatchers(this.adminServer.getContextPath() + "/login")
+//            .permitAll()
+//            .anyRequest()
+//            .authenticated()
+//            .and()
+//            .formLogin()
+//            .loginPage(this.adminServer.getContextPath() + "/login")
+//            .successHandler(successHandler)
+//            .and()
+//            .logout()
+//            .logoutUrl(this.adminServer.getContextPath() + "/logout")
+//            .and()
+//            .httpBasic()
+//            .and()
+//            .csrf()
+//            .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+//            .ignoringRequestMatchers(new AntPathRequestMatcher(this.adminServer.getContextPath() + "/instances", HttpMethod.POST.toString()), new AntPathRequestMatcher(this.adminServer.getContextPath() + "/instances/*", HttpMethod.DELETE.toString()),
+//                new AntPathRequestMatcher(this.adminServer.getContextPath() + "/actuator/**"))
+//            .and()
+//            .rememberMe()
+//            .key(UUID.randomUUID()
+//                .toString())
+//            .tokenValiditySeconds(1209600);
+//	}
+	
+
+	
+	@Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http.cors().and().csrf().disable() 
+        		.anonymous().disable()
+        		 .formLogin().permitAll()//.and()//.authorizeHttpRequests().requestMatchers("/", "/eureka/**").permitAll()
+        		 .and().authorizeHttpRequests()
+                         .anyRequest().authenticated();
+        return http.build();
+    }
+
+	@Bean
+	public WebMvcConfigurer corsConfigurer() {
+		return new WebMvcConfigurer() {
+			@Override
+			public void addCorsMappings(CorsRegistry registry) {
+				registry.addMapping("/**").allowedOrigins("*");
+			}
+		};
+	}
+	
+	@Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return web -> web.ignoring().requestMatchers(CorsUtils::isPreFlightRequest).requestMatchers("/actuator/**", "/eureka/**");
+    }
+	
+	@Bean
+	public PasswordEncoder encoder() {
+	    return new BCryptPasswordEncoder();
 	}
 	
 }
