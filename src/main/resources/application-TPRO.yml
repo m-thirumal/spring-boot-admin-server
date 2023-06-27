@@ -9,7 +9,7 @@ spring:
       notify: 
         ms-teams:
           enabled: true
-          webhook-url: https://enkindle.webhook.office.com/webhookb2/75078f98-1f3a-4ed2-af93-568a397f0806@8f8998d2-4e65-4757-8e6e-be97a171a01d/IncomingWebhook/3086eb766fb74b7c9c3fa2c15689e6d6/54b0c17e-7e1d-4e85-9b20-de0cca21b654https://enkindle.webhook.office.com/webhookb2/a88465ce-b74c-4d74-8f48-dc97a0662bb1@8f8998d2-4e65-4757-8e6e-be97a171a01d/IncomingWebhook/4a7ffa2931474e17a3caacd5bc11fc43/54b0c17e-7e1d-4e85-9b20-de0cca21b654
+          webhook-url: https://enkindle.webhook.office.com/webhookb2/a88465ce-b74c-4d74-8f48-dc97a0662bb1@8f8998d2-4e65-4757-8e6e-be97a171a01d/IncomingWebhook/2532e1e3c18b4a289a99c96259bfb123/54b0c17e-7e1d-4e85-9b20-de0cca21b654
           
 eureka:
   instance:
