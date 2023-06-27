@@ -17,8 +17,17 @@ eureka:
 
 #Graceful shutdown
 server:
+  port: 7126
   shutdown: graceful
 spring:
+  application:
+    name: spring-boot-admin-server
+  profiles:
+    active: DEV
+  security:
+    user:
+      name: thirumal
+      password: thirumal
   boot:
     admin: 
       notify: 
