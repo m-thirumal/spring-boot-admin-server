@@ -1,0 +1,22 @@
+logging: 
+  level: 
+    '[de.codecentric.boot.admin.server.web.client]': error
+    '[de.codecentric.boot.admin]': error
+
+
+spring:
+  boot:
+    admin: 
+      notify: 
+        ms-teams:
+          enabled: true
+          webhook-url: https://enkindle.webhook.office.com/webhookb2/75078f98-1f3a-4ed2-af93-568a397f0806@8f8998d2-4e65-4757-8e6e-be97a171a01d/IncomingWebhook/3086eb766fb74b7c9c3fa2c15689e6d6/54b0c17e-7e1d-4e85-9b20-de0cca21b654
+          
+eureka:
+  instance:
+    appname: spring-boot-admin-server
+    hostname: localhost
+  client:
+    service-url:
+      defaultZone: http://thirumal:thirumal@172.31.1.17:8761/eureka/,http://thirumal:thirumal@172.31.1.17:8762/eureka/,http://thirumal:thirumal@172.31.1.17:8763/eureka/
+      
