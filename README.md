@@ -8,12 +8,14 @@ Run with [Eureka server/registry](https://github.com/M-Thirumal/eureka-server)
 
 #### Login Details
 
+```
+
 URL     : [http://localhost:7216](http://localhost:7216)
 
 Username: thirumal
 
 Password: thirumal
-
+```
 
 ##### The eureka client must expose the actuator end point
 
@@ -67,7 +69,7 @@ Password: thirumal
 	
 * Run the image
 	
-      docker run --name spring-boot-admin-server --restart always -d -p 7126:7126 spring-boot-admin-server
+    docker run --name spring-boot-admin-server --restart always -d -p 7126:7126 spring-boot-admin-server
       
 * Run image with local log driver
 
@@ -75,7 +77,7 @@ Password: thirumal
 
 * Run image without log driver
 
-      docker run --name spring-boot-admin-server --restart always --log-driver none -d -p 7126:7126 spring-boot-admin-server
+    docker run --name spring-boot-admin-server --restart always --log-driver none -d -p 7126:7126 spring-boot-admin-server
 
 ## Output
 
