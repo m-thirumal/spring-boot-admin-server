@@ -35,6 +35,9 @@ spring:
           enabled: true
   lifecycle:
     timeout-per-shutdown-phase: 60s
+  threads:
+    virtual:
+      enabled: true
     
 logging:
   file: 
