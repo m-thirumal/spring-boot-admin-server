@@ -3,6 +3,8 @@
  */
 package in.thirumal.config;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -23,7 +26,7 @@ import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import de.codecentric.boot.admin.server.config.AdminServerProperties;
+//import de.codecentric.boot.admin.server.config.AdminServerProperties;
 
 /**
  * @author Thirumal
@@ -34,14 +37,14 @@ import de.codecentric.boot.admin.server.config.AdminServerProperties;
 @EnableWebSecurity
 public class SecurityConfig {
 	
-	private final AdminServerProperties adminServer;
+//	private final AdminServerProperties adminServer;
+//
+//    public SecurityConfig(AdminServerProperties adminServer) {
+//        this.adminServer = adminServer;
+//    }
 
-    public SecurityConfig(AdminServerProperties adminServer) {
-        this.adminServer = adminServer;
-    }
-	
-	@Bean
-    protected InMemoryUserDetailsManager configAuthentication() {
+    @Bean
+    InMemoryUserDetailsManager configAuthentication() {
 
        List<UserDetails> users = new ArrayList<>();
        List<GrantedAuthority> adminAuthority = new ArrayList<>();
@@ -57,7 +60,7 @@ public class SecurityConfig {
 
        return new InMemoryUserDetailsManager(users);
     }
-	
+
 //	@Override
 //	protected void configure(HttpSecurity http) throws Exception {
 //		SavedRequestAwareAuthenticationSuccessHandler successHandler = new SavedRequestAwareAuthenticationSuccessHandler();
@@ -91,21 +94,36 @@ public class SecurityConfig {
 //                .toString())
 //            .tokenValiditySeconds(1209600);
 //	}
-	
+    
 
-	
-	@Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable() 
-        		.anonymous().disable()
-        		 .formLogin().permitAll()//.and()//.authorizeHttpRequests().requestMatchers("/", "/eureka/**").permitAll()
-        		 .and().authorizeHttpRequests()
-                         .anyRequest().authenticated();
+    
+//    @Bean
+//    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+//        http.cors().and().csrf().disable() 
+//        		.anonymous().disable()
+//        		 .formLogin().permitAll()//.and()//.authorizeHttpRequests().requestMatchers("/", "/eureka/**").permitAll()
+//        		 .and().authorizeHttpRequests()
+//                         .anyRequest().authenticated();
+//        return http.build();
+//    }
+    @Bean
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+            .cors(withDefaults())  // Enable CORS with default settings
+            .csrf(csrf -> csrf.disable())  // Disable CSRF (only if necessary)
+            .anonymous(AbstractHttpConfigurer::disable) // Disable anonymous access
+            .formLogin(form -> form.permitAll()) // Enable form login
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/", "/eureka/**").permitAll() // Allow public access to specific endpoints
+                .anyRequest().authenticated() // Require authentication for all other requests
+            );
+
         return http.build();
     }
 
-	@Bean
-	public WebMvcConfigurer corsConfigurer() {
+
+    @Bean
+    WebMvcConfigurer corsConfigurer() {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
@@ -113,14 +131,14 @@ public class SecurityConfig {
 			}
 		};
 	}
-	
-	@Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
+
+    @Bean
+    WebSecurityCustomizer webSecurityCustomizer() {
         return web -> web.ignoring().requestMatchers(CorsUtils::isPreFlightRequest).requestMatchers("/actuator/**", "/eureka/**");
     }
-	
-	@Bean
-	public PasswordEncoder encoder() {
+
+    @Bean
+    PasswordEncoder encoder() {
 	    return new BCryptPasswordEncoder();
 	}
 	

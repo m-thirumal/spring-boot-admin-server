@@ -58,9 +58,9 @@ logging:
 management:
   endpoint:
     shutdown:
-      enabled: true
+      access: unrestricted
     restart: 
-      enabled: true
+      access: unrestricted
     health:
       show-details: ALWAYS
   endpoints: 
