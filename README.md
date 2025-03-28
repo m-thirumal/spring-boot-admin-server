@@ -79,6 +79,12 @@ Password: thirumal
 
 `docker run --name spring-boot-admin-server --restart always --log-driver none -d -p 7126:7126 spring-boot-admin-server`
 
+## Graceful Shutdown
+
+```curl
+curl -X POST http://localhost:7126/actuator/shutdown
+```
+
 ## Output
 
 ![1.png](output/1.png)
